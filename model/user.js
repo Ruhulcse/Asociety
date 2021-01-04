@@ -9,8 +9,6 @@ const userSchema = new mongoose.Schema({
         trim:true,
         lowercase: true,
         validate: [validator.isEmail, 'Please provide a valid email']
-      
-
     },
     password:{
         type:String,
@@ -18,8 +16,7 @@ const userSchema = new mongoose.Schema({
         trim:true,
         minlength:8,
         select:false
-        
-
+    
     },
     createdAt:{
         type:Date,
@@ -46,7 +43,17 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true,
         default:"+967000000000"
+    }, 
+    userType:{
+        type:String, 
+        required:[true, "Please select User Type"],
+        trim:true,
+        enum: ["BUYER", "SELLER"]
+
+
+
     }
+
 
  
 });
@@ -60,6 +67,11 @@ userSchema.pre('save', async function(next){
     if (!this.isModified('password')) return next();
     this.password = await bcryptjs.hash(this.password, 12);
 })
+// change password after 
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp){
+   
+    return false;
+}
 
 
 const User = mongoose.model('Users',userSchema );
