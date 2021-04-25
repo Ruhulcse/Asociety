@@ -1,62 +1,49 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const validator = require("validator");
 const productSchema = new mongoose.Schema({
-    productName:{
-        type:String,
-        required:[true,'A Product must have a Name'],
-        trim:true
-    },
-    rattingAverage:{
-        type:Number,
-        default:0,
-        max:5
+  username: {
+    type: String,
+    required: [true, "Username is required"],
+    trim: true,
+  },
+  userIdentifer: {
+    type: String,
+    required: [true, "Email address should be vaild email address"],
+    trim: true,
+    lowercase: true,
 
-    },
-    rattingQuantity:{
-        type:Number,
-        default:0,
-
-    },
-    productTye:{
-        type:String,
-        required:[true,'A Product must have a Type'],
-        trim:true
-
-    },
-    productprice:{
-        type:Number,
-        required:[true,'A Product must have a a price'],
-    },
-    deliveryprice:{
-        type:Number,
-        required:[true,'A Product must have a a price'],
-    },
-    product_color:{
-        type:[String],
-        require:true,
-        default:["#ffffff"]
-
-    },
-    product_size:{
-        type:String,
-        trim:true,
-        required:true
-    },
-    priceDiscount: Number,
-    
-    description:{
-        type:String,
-        trim:true,
-        required: [true, 'A Product must have a Description']
-    },
-   
-    images:[String],
-    createdAt:{
-        type:Date,
-        default:Date.now()
-    }
-   
+    validate: [validator.isEmail, "Please provide a valid email"],
+  },
+  projectTitle: {
+    type: String,
+    required: [true, "Project Title is required"],
+    trim: true,
+  },
+  description: {
+    type: String,
+    required: [true, "Project is required"],
+  },
+  projectType: {
+    type: String,
+    required: [true, "A Product must have a Type"],
+    trim: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, "A Product must have a a price"],
+  },
+  // Search about how to add attachment
+  attachment: {
+    type: String,
+    trim: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
+// create a middelware that check the existing of the email and phone number // if one of them is exists just send a user his email and tempary password
 
-const product = mongoose.model('Product',productSchema );
+const product = mongoose.model("Product", productSchema);
 
-module.exports =  product;
+module.exports = product;
