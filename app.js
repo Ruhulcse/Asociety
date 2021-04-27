@@ -12,6 +12,7 @@ const globalErrorHandler = require("./controller/errorController");
 const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRouter");
 const projectRouter = require("./routes/proejctRouter");
+const newsRouter = require("./routes/newsRouter");
 const { google } = require("googleapis");
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === "development") {
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/projects",projectRouter)
+app.use("/api/v1/news",newsRouter)
 // app.all("*", (req, res, next) => {
 //   res.status(404).json({
 //     status: "fail",
