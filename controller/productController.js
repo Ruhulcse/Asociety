@@ -5,6 +5,7 @@ const AppError = require("./../utils/appError");
 const jwt = require("jsonwebtoken");
 const request = require("request");
 const { file } = require("googleapis/build/src/apis/file");
+var fs = require('fs');
 // token
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWTSecert, {
@@ -14,10 +15,11 @@ const signToken = (id) => {
 
 // creating product function
 exports.createProduct = catchAsync(async (req, res) => {
+  
   console.log("requested");
-
-  const type = req.body.attachment.split(';')[0].split('/')[1];
-  let base64Data = req.body.attachment.replace(/^data:image\/png;base64,/, "");
+  const type = req.body.attachment.split(';')[0].match(/jpeg|png|gif/)[0];
+  console.log(type)
+  let base64Data = req.body.attachment.replace(/^data:image\/\w+;base64,/, "");
   let fileName = req.body.username;
       fileName+='.'+type;
   let FilePath = `./ProposalFile/${fileName}`

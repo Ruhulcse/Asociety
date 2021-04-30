@@ -25,6 +25,7 @@
     "nodemailer": "^6.4.17",
     "nodemon": "^2.0.7",
     "promisify": "0.0.3",
+    "psl": "^1.8.0",
     "request": "^2.88.2",
     "validator": "^13.5.1"
   },

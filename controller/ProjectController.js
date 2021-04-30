@@ -1,14 +1,15 @@
 const asyncHandler = require('express-async-handler');
 const Project = require("../model/project")
-
+var psl = require('psl');
 //@Desc Create new project
 //@route POST/api/project
 //@access private
 exports.createProject = asyncHandler(async(req,res) => {
 
-    const type = req.body.imageurl.split(';')[0].split('/')[1];
-    let base64Data = req.body.imageurl.replace(/^data:image\/png;base64,/, "");
-    let fileName = req.body.projecturl;
+    const type = req.body.imageurl.split(';')[0].match(/jpeg|png|gif/)[0];
+    console.log(type)
+    let base64Data = req.body.imageurl.replace(/^data:image\/\w+;base64,/, "");
+    let fileName = req.body.title;
         fileName+='.'+type;
     let FilePath = `./images/${fileName}`
     require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
