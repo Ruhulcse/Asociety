@@ -7,7 +7,6 @@ var psl = require('psl');
 exports.createProject = asyncHandler(async(req,res) => {
 
     const type = req.body.imageurl.split(';')[0].match(/jpeg|png|gif/)[0];
-    console.log(type)
     let base64Data = req.body.imageurl.replace(/^data:image\/\w+;base64,/, "");
     let fileName = req.body.title;
         fileName+='.'+type;

@@ -6,22 +6,23 @@ const News = require("../model/NewsModel")
 //@access private
 exports.createNews = asyncHandler(async(req,res) => {
 
-    // const type = req.body.imageurl.split(';')[0].split('/')[1];
-    // let base64Data = req.body.imageurl.replace(/^data:image\/png;base64,/, "");
-    // let fileName = req.body.projecturl;
-    //     fileName+='.'+type;
-    // let FilePath = `./images/${fileName}`
-    // require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
-    //   console.log(err);
-    // });
-    // req.body.imageurl = fileName;
+    const type = req.body.image.split(';')[0].match(/jpeg|png|gif/)[0];
+    let base64Data = req.body.image.replace(/^data:image\/\w+;base64,/, "");
+    let fileName = req.body.title;
+        fileName+='.'+type;
+    let FilePath = `./images/${fileName}`
+    require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
+      console.log(err);
+    });
+    req.body.image = fileName;
 
-    const {title,videourl,text} = req.body
+    const {title,videourl,text,image} = req.body
 
     const news = new News({
         title,
         videourl,
         text,
+        image,
     });
     try {
         const SavedNews = await news.save();
