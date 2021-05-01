@@ -33,7 +33,7 @@ exports.createNews = asyncHandler(async(req,res) => {
 });
 
 //@Desc fetch all project
-//@route POST/api/project
+//@route POST/api/news
 //@access public
 exports.getAllNews = asyncHandler(async(req,res)=>{
     try {
@@ -42,4 +42,22 @@ exports.getAllNews = asyncHandler(async(req,res)=>{
     } catch (error) {
         res.json({message: error})
     }
+})
+
+
+//@Desc fetch single news
+//@route POST/api/news
+//@access public
+exports.getSingleNews = asyncHandler(async(req,res)=>{
+    try {
+        const news = await News.findById(req.params.id);
+        if (news == null) {
+          res.status(404);
+          res.send("news not found");
+        } else {
+          res.json(news);
+        }
+      } catch (error) {
+        res.json({ message: error });
+      }
 })
