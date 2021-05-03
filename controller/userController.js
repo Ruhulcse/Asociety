@@ -67,35 +67,30 @@ exports.login = catchAsync(async (req, res, next) => {
   // get email Address and password
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      res.status(400).json({
-        status: "Failed",
-        ErrorMessage: "Email address or password is not founded ",
-        mesasge: Error,
-      });
-    }
+    // if (!email || !password) {
+    //   res.status(400).json({
+    //     status: "Failed",
+    //     ErrorMessage: "Email address or password is not founded ",
+    //     mesasge: Error,
+    //   });
+    // }
     const user = await User.findOne({ email }).select("+password");
     // check if email address and password is correct
     // if everythig is okay send toke
     // pass the passwrd and the hash password too
     if (!user || !(await user.correctPassword(password, user.password))) {
-      res.status(401).json({
-        status: "Failed",
-        ErrorMessage: "Incorrect email or password",
-      });
+     res.send("wrong");
     }
+   else{
     const token = signToken(user._id);
     res.status(200).json({
       status: "success login ",
       token: token,
       user: user,
     });
+   }
   } catch (Error) {
-    res.status(400).json({
-      status: "Failed",
-      ErrorMessage: "Email address or password is wrong",
-      mesasge: Error,
-    });
+    res.send("bad");
   }
 });
 
