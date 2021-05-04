@@ -65,7 +65,7 @@ exports.createProduct = catchAsync(async (req, res) => {
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   // get the id from the user firdt
-  const productId = await product.findById(req.params.id);
+  const productId = 
   console.log("Hi before deleting product", productId);
   try {
     const productId = await product.findByIdAndDelete(req.params.id);
@@ -134,4 +134,19 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   // update products
 });
 
-// get email Address and password
+// get single product
+exports.getSingleProduct = catchAsync(async(req,res,next)=>{
+  console.log(req.params.id);
+  try {
+    const item = await product.findById(req.params.id);
+    console.log(item)
+    if (item == null) {
+      res.status(404);
+      res.send("news not found");
+    } else {
+      res.json(item);
+    }
+  } catch (error) {
+    res.json({ message: error });
+  }
+})
