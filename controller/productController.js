@@ -150,3 +150,21 @@ exports.getSingleProduct = catchAsync(async(req,res,next)=>{
     res.json({ message: error });
   }
 })
+
+exports.getEmailProduct = catchAsync(async(req,res,next)=>{
+  console.log(req.params.email);
+  let email = req.params.email;
+  console.log(email);
+  try {
+    const item = await product.find({"userIdentifer": email});
+    console.log(item)
+    if (item == null) {
+      res.status(404);
+      res.send("news not found");
+    } else {
+      res.json(item);
+    }
+  } catch (error) {
+    res.json({ message: error });
+  }
+})

@@ -9,6 +9,7 @@ router.delete("/deleteProduct/:id", productController.deleteProduct);
 router.patch("/updateProduct/:id", productController.updateProduct);
 router.get("/getProduct", productController.getProduct);
 router.get("/getSinglProduct/:id",productController.getSingleProduct);
+router.get("/getEmailProduct/:email",productController.getEmailProduct);
 //router.post('/login',userController.login);
 //   .get(userController.getAllUsers)
 
