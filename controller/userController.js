@@ -79,16 +79,15 @@ exports.login = catchAsync(async (req, res, next) => {
     // if everythig is okay send toke
     // pass the passwrd and the hash password too
     if (!user || !(await user.correctPassword(password, user.password))) {
-     res.send("wrong");
+      res.send("wrong");
+    } else {
+      const token = signToken(user._id);
+      res.status(200).json({
+        status: "success login ",
+        token: token,
+        user: user,
+      });
     }
-   else{
-    const token = signToken(user._id);
-    res.status(200).json({
-      status: "success login ",
-      token: token,
-      user: user,
-    });
-   }
   } catch (Error) {
     res.send("bad");
   }
@@ -237,3 +236,5 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
 });
 // reset password
 exports.resetPassword = (req, res, next) => {};
+
+//git testing
