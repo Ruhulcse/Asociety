@@ -5,7 +5,7 @@ const AppError = require("./../utils/appError");
 const jwt = require("jsonwebtoken");
 const request = require("request");
 const { file } = require("googleapis/build/src/apis/file");
-var fs = require('fs');
+var fs = require("fs");
 // token
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWTSecert, {
@@ -15,19 +15,6 @@ const signToken = (id) => {
 
 // creating product function
 exports.createProduct = catchAsync(async (req, res) => {
-  
-  console.log("requested");
-  const type = req.body.attachment.split(';')[0].match(/jpeg|png|gif/)[0];
-  console.log(type)
-  let base64Data = req.body.attachment.replace(/^data:image\/\w+;base64,/, "");
-  let fileName = req.body.username;
-      fileName+='.'+type;
-  let FilePath = `./ProposalFile/${fileName}`
-  require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
-    console.log(err);
-  });
-  req.body.attachment = FilePath
-  
   try {
     const userProduct = await product.findOne({
       userIdentifer: req.body.userIdentifer,
@@ -37,7 +24,7 @@ exports.createProduct = catchAsync(async (req, res) => {
       // const newUser = await User.create(req.body);
       // const token = signToken(newUser._id);
       //|| newUser != null
-      if (newProduct != null ) {
+      if (newProduct != null) {
         return res.json({
           message: "Success",
           // token,
@@ -65,8 +52,7 @@ exports.createProduct = catchAsync(async (req, res) => {
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   // get the id from the user firdt
-  const productId = 
-  console.log("Hi before deleting product", productId);
+  const productId = console.log("Hi before deleting product", productId);
   try {
     const productId = await product.findByIdAndDelete(req.params.id);
     if (!productId) {
@@ -135,11 +121,11 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 });
 
 // get single product
-exports.getSingleProduct = catchAsync(async(req,res,next)=>{
+exports.getSingleProduct = catchAsync(async (req, res, next) => {
   console.log(req.params.id);
   try {
     const item = await product.findById(req.params.id);
-    console.log(item)
+    console.log(item);
     if (item == null) {
       res.status(404);
       res.send("news not found");
@@ -149,15 +135,15 @@ exports.getSingleProduct = catchAsync(async(req,res,next)=>{
   } catch (error) {
     res.json({ message: error });
   }
-})
+});
 
-exports.getEmailProduct = catchAsync(async(req,res,next)=>{
+exports.getEmailProduct = catchAsync(async (req, res, next) => {
   console.log(req.params.email);
   let email = req.params.email;
   console.log(email);
   try {
-    const item = await product.find({"userIdentifer": email});
-    console.log(item)
+    const item = await product.find({ userIdentifer: email });
+    console.log(item);
     if (item == null) {
       res.status(404);
       res.send("news not found");
@@ -167,4 +153,4 @@ exports.getEmailProduct = catchAsync(async(req,res,next)=>{
   } catch (error) {
     res.json({ message: error });
   }
-})
+});
